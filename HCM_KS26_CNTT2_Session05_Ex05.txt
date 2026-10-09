@@ -1,0 +1,27 @@
+1. Luồng IPO
+
+[INPUT]                     [PROCESS]                            [OUTPUT]
+Files trong           ┌── Tệp .png, .jpg & Đích KHÔNG phải thư mục ──> mv vào media/
+~/Downloads  ───────┼── Tệp .py & Đích KHÔNG phải thư mục ───────> mv vào scripts/
+                      └── Tệp .tmp ─────────────────────────────────> rm (xóa)
+-Xử lý Edge Case (Is a directory): Trước khi mv, Robot dùng toán tử kiểm tra [ ! -d "đích/tên_file" ] để xác nhận vị trí đích không bị trùng tên với một thư mục. Nếu trùng, Robot bỏ qua và báo log thay vì thực thi lệnh để tránh va chạm hệ thống.
+
+2. Câu lệnh rút gọn
+
+#!/bin/bash
+mkdir -p media scripts
+
+ 1. Gom file ảnh (.png, .jpg)
+for f in ~/Downloads/*.png ~/Downloads/*.jpg; do
+  [ -f "$f" ] && [ ! -d "media/$(basename "$f")" ] && mv "$f" media/
+done
+
+ 2. Gom file code (.py)
+for f in ~/Downloads/*.py; do
+  [ -f "$f" ] && [ ! -d "scripts/$(basename "$f")" ] && mv "$f" scripts/
+done
+
+ 3. Xóa file tạm (.tmp)
+for f in ~/Downloads/*.tmp; do
+  [ -f "$f" ] && rm "$f"
+done
