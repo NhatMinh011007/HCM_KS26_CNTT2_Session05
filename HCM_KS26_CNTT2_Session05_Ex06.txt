@@ -1,0 +1,54 @@
+1. Phân tích luồng IPO
+Plaintext
+[ INPUT ]                          [ PROCESS ]                              [ OUTPUT ]
+Đường dẫn ~,              ┌── Tạo 3 thư mục bằng mkdir ────────────> Cấu trúc smart-farm/{bin,config,data}
+Public/template.ps1,   ───┼── Tạo file ẩn .env (Hidden attribute) ──> config/.env (chứa mật khẩu)
+Quyền truy cập             ├── Copy & Đổi tên trong 1 lệnh ──────────> bin/pump_control.ps1
+                          └── Xử lý Run as Administrator ──────────> Vượt rào cản "Access to the path is denied"
+2. Nhật ký lệnh PowerShell
+Bước 1: Tạo cấu trúc thư mục (1 dòng lệnh)
+ PowerShell
+ New-Item -Path ~ -Name "smart-farm" -ItemType Directory | ForEach-Object { "bin", "config", "data" | ForEach-Object { New-Item -Path "$($_.FullName)\$_" -ItemType Directory } }
+
+Hoặc cú pháp ngắn hơn:
+
+PowerShell
+"bin", "config", "data" | ForEach-Object { New-Item -Path "~\smart-farm\$_" -ItemType Directory -Force }
+
+Bước 2: Tạo file ẩn .env & Giải thích
+
+PowerShell
+
+Set-Content -Path "~\smart-farm\config\.env" -Value "SENSOR_PASS=Admin123"
+(Get-Item "~\smart-farm\config\.env").Attributes = 'Hidden'
+
+Giải thích: Lệnh Get-ChildItem (hoặc dir/ls) mặc định bỏ qua các file có thuộc tính Hidden. Để xem file ẩn, bạn cần dùng thêm tham số -Force:
+
+PowerShell
+Get-ChildItem -Path "~\smart-farm\config" -Force
+
+Bước 3: Sao chép & đổi tên trong 1 lệnh duy nhất
+
+PowerShell
+
+Copy-Item -Path "C:\Users\Public\template.ps1" -Destination "~\smart-farm\bin\pump_control.ps1"
+
+Bước 4: Kiểm tra toàn bộ cấu trúc thư mục
+
+PowerShell
+
+Get-ChildItem -Path "~\smart-farm" -Recurse -Force
+
+3. Xử lý lỗi "Access to the path is denied" (Ràng buộc)
+Để chạy lệnh với quyền Administrator trong PowerShell:
+
+1.Khởi chạy Session mới với quyền Admin:
+
+PowerShell
+Start-Process powershell -Verb RunAs
+2.Nếu làm việc từ xa / Windows Core (môi trường không UI):
+
+Mở PowerShell với tài khoản Administrator thông qua Credential:
+
+PowerShell
+Start-Process powershell -Credential (Get-Credential) -ArgumentList "-Command Copy-Item -Path 'C:\Users\Public\template.ps1' -Destination '~\smart-farm
