@@ -1,0 +1,16 @@
+1. Sơ đồ luồng IPO (Input – Process – Output)
+ -Input (Đầu vào): Tên các thư mục (smart-farm, data\logs, code, backup) và các file cần tạo (config.json, sensors.py, .env).
+
+ Process (Xử lý):
+  -Tạo nhanh cấu trúc cây thư mục lồng nhau bằng New-Item (tham số -Force).
+  -Khởi tạo đồng loạt 3 file mã nguồn/cấu hình.
+  -Sao chép đệ quy toàn bộ thư mục code sang thư mục lưu trữ dự phòng bằng Copy-Item (tham số -Recurse).
+ Output (Đầu ra): Hệ thống cây thư mục hoàn chỉnh, các file trống đã sẵn sàng và một bản sao lưu backup\code_v1 chứa đầy đủ dữ liệu.
+
+2. Danh sách câu lệnh PowerShell
+Tạo thư mục bằng 1 dòng lệnh:
+   New-Item -ItemType Directory -Force -Path "smart-farm\data\logs", "smart-farm\code"
+Tạo cùng lúc 3 file bằng 1 dòng lệnh:
+   New-Item -ItemType File -Path "smart-farm\code\config.json", "smart-farm\code\sensors.py", "smart-farm\code\.env"
+Sao chép thư mục kèm toàn bộ nội dung bên trong:
+   Copy-Item -Path "smart-farm\code" -Destination "smart-farm\backup\code_v1" -Recurse -Force

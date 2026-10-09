@@ -1,0 +1,8 @@
+Cách 1: Chuẩn Linux / Mac (Bash)
+ -Tạo thư mục: mkdir drink_module
+ -Di chuyển vào thư mục: cd drink_module
+ -Tạo 2 file trống cùng lúc: touch coffee.txt tea.txt
+Cách 2: Chuẩn Windows (PowerShell)
+ -Tạo thư mục: mkdir drink_module
+ -Di chuyển vào thư mục: cd drink_module
+Tạo 2 file trống cùng lúc: New-Item coffee.txt, tea.txt

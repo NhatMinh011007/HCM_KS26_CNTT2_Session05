@@ -1,0 +1,33 @@
+1.So sánh ưu nhược điểm của Absolute và Relative Path trong dự án lập trình.
+ Tiêu chí : Absoluteb pad ( tuyệt đối)
+ Định nghĩa : Đường dẫn đầy đủ từ gốc hệ thống ( C:/... hoặc /...)
+ Ví dụ : C:\Project\src\index.js
+ Ưu điểm : Chính xác tuyệt đối ,dễ xác định vị trí file gốc.
+ Nhược điểm : Cứng nhắc , dễ gãy code khi đổi máy hoặc đổi thư mục lớn.
+_______
+ Tiêu chí : Relative path (Tương đối)
+ Định nghĩa :  Đường dẫn dựa theo vị trí file hiện tại ( ./ hoặc ../)
+ Ví dụ : ./src/index.js
+ Ưu điểm : Linh hoạt ,di động: Code chạy tốt trên mọi máy /sever, chuẩn cho git
+ Nhược điểm : Dễ rối/ nối chuỗi dài khi lồng sâu ( ../../ ),hỏng link nếu di chuyển file.
+_______
+  -Đánh giá tính di động (Portability) của mã nguồn.
+1. Phụ thuộc vào đường dẫn (Path Dependency)
+ -Kém: Dùng đường dẫn tuyệt đối làm mã hóa cứng (C:\Users\...)
+ -Tốt: Dừng đưỡng dẫn tương đối (./src) hoặc các biến môi trường/thư viện quản lý đường dẫn (path.join)
+2. Cấu hình môi trường (Environment Configuration)
+ -Kém: Lưu mật khẩu , cổng mạng (port), API Key trực tiếp trong mã nguồn.
+ -Tốt: Đưa cấu hình ra file môi trường ngoài ( .env , config.json)
+3.Độc lập nền tang & Hệ điều hành (OS Independence)
+ -Kém: Gọi trực tiếp lệnh hệ thống đặc thù ( như lệnh dir của Windows hay ls của Linux).
+ -Tốt: Dùng thư viện chuẩn của ngôn ngữ để thao tác với hệ thống
+4. Quản lý thư viện & Phụ thuộc (Dependence Management)
+ -Kém: Giả định máy chạy đã cài sẵn thư viện mà không khai báo phiên bản
+ -Tốt: Khai báo rõ ràng file quản lý thư viện ( requirement.txt , package.json) hoặc đóng gói bang Docker/Container.
+
+Phần 2: Giải pháp tối ưu & Giải thích
+ -Lựa chọn tối ưu: Đường dẫn tương đối ../data/logs.csv.
+ -Ý nghĩa của ký hiệu ..:
+    Ký hiệu .. biểu thị thư mục cha (lùi ra 1 cấp thư mục so với vị trí file script Python đang đứng)
+    .../data/logs.csv nghĩa là: "Đi ngược ra thư mục cha bên ngoài -> đi vào thư mục data -> mở file logs.csv".
+

@@ -1,0 +1,10 @@
+﻿Phần 1: Phân tích 2 lỗi sai
+ 1.Không bọc khoảng trắng trong dấu ngoặc kép ""
+ -Hiện tượng: mkdir Smart Farm Project tạo ra 3 thư mục riêng lẻ (Smart, Farm, Project). Tiếp đó, cd Smart Farm Project bị lỗi do thừa tham số.
+ -Nguyên nhân: PowerShell dùng khoảng trắng để phân tách tham số. Khi tên thư mục có khoảng trắng, bắt buộc phải dùng "...".
+2.Dùng sai dấu phân tách đường dẫn hệ thống
+ -Hiện tượng: mkdir src/sensors/temperature dễ lỗi do dùng dấu xược chéo / kiểu Linux.
+ -Nguyên nhân: Windows sử dụng dấu \ làm đường dẫn chuẩn.
+Phần 2: Chuỗi lệnh đúng nhất
+ –Tạo toàn bộ cấu trức trong 1 dòng lệnh duy nhất:
+      mkdir "Smart Farm Project\src\sensors\temperature"
